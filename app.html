@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive POC Roadmap: QuickEats & AppsFlyer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A single-page application with a sticky top navigation bar allowing users to jump between the four core POC objectives. This task-oriented structure improves on the linear email format by providing quick access to relevant sections. Interactive elements like a clickable timeline for the migration, info cards for Protect360, a step-diagram for BigQuery, and an accordion for re-engagement use cases are used to make complex information digestible and engaging, facilitating a better understanding of the plan. -->
+    <!-- Visualization & Content Choices: 1. Migration: A 3-step clickable timeline (HTML/CSS/JS) to visualize the process flow. Interaction: Clicking a phase scrolls to its details, focusing user attention. Justification: Superior to a static list for process visualization. 2. Protect360: Interactive info cards (HTML/CSS) with hover effects and an animated counter (JS) for the "Fraud Savings" concept. Interaction: Hovering reveals focus, and the animated number adds impact. Justification: More engaging and impactful than plain text. 3. BigQuery: A numbered step-diagram (HTML/Tailwind) to clarify the technical workflow. Interaction: Simple, clear visual flow. Justification: Visually breaks down a technical process into easy steps. 4. Re-engagement: An accordion component (HTML/JS) to display different campaign ideas. Interaction: Clicking a title expands to show details. Justification: Organizes multiple examples cleanly, preventing information overload. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #374151;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #0891B2;
+            border-bottom-color: #0891B2;
+        }
+        .phase-step {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .phase-step.active {
+            background-color: #0891B2;
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-gray-800">QuickEats<span class="text-cyan-600"> & </span>AppsFlyer</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#migration" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-600">Migration</a>
+                        <a href="#protect360" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-600">Protect360</a>
+                        <a href="#bigquery" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-600">BigQuery</a>
+                        <a href="#re-engagement" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-600">Re-engagement</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                Interactive Proof of Concept Roadmap
+            </h2>
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-500">
+                An overview of the key objectives and strategic steps for a successful transition to AppsFlyer.
+            </p>
+        </div>
+
+        <!-- Section 1: Migration -->
+        <section id="migration" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <span class="text-cyan-600 font-semibold uppercase tracking-wider">Objective 1</span>
+                <h3 class="mt-2 text-3xl font-bold text-gray-900">Seamless Migration Plan</h3>
+                <p class="mt-4 text-lg text-gray-500">A proven three-phase approach to ensure a smooth transition with zero disruption.</p>
+            </div>
+            
+            <!-- Migration Timeline -->
+            <div class="relative mb-12">
+                <div class="absolute left-1/2 w-0.5 h-full bg-gray-200 -translate-x-1/2"></div>
+                <div class="flex justify-between items-center w-full">
+                    <div id="phase-step-1" class="phase-step active flex-1 text-center bg-white border border-gray-200 rounded-lg p-6 shadow-sm" data-target="phase-content-1">
+                        <span class="block text-sm font-semibold uppercase tracking-wider text-cyan-600 mb-2">Phase 1</span>
+                        <h4 class="text-lg font-bold">Pre-Migration & Setup</h4>
+                    </div>
+                    <div class="w-1/4 h-0.5 bg-gray-200"></div>
+                    <div id="phase-step-2" class="phase-step flex-1 text-center bg-white border border-gray-200 rounded-lg p-6 shadow-sm" data-target="phase-content-2">
+                        <span class="block text-sm font-semibold uppercase tracking-wider text-cyan-600 mb-2">Phase 2</span>
+                        <h4 class="text-lg font-bold">Testing & Validation</h4>
+                    </div>
+                    <div class="w-1/4 h-0.5 bg-gray-200"></div>
+                    <div id="phase-step-3" class="phase-step flex-1 text-center bg-white border border-gray-200 rounded-lg p-6 shadow-sm" data-target="phase-content-3">
+                        <span class="block text-sm font-semibold uppercase tracking-wider text-cyan-600 mb-2">Phase 3</span>
+                        <h4 class="text-lg font-bold">Full Migration</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Migration Content -->
+            <div id="phase-content-container" class="space-y-12">
+                <div id="phase-content-1" class="phase-content">
+                    <h4 class="text-2xl font-semibold text-center mb-8">Phase 1: Pre-Migration & Setup Details</h4>
+                    <div class="grid md:grid-cols-3 gap-8 text-center">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <div class="text-3xl text-cyan-600 mb-3">&#128226;</div>
+                            <h5 class="font-bold mb-2">Comprehensive SDK Integration</h5>
+                            <p class="text-sm text-gray-600">Integrate the SDK into iOS & Android apps. Meticulously map key in-app events like `purchase` and `add_to_cart`.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <div class="text-3xl text-cyan-600 mb-3">&#128190;</div>
+                            <h5 class="font-bold mb-2">Historical Data Import</h5>
+                            <p class="text-sm text-gray-600">Work with our team to import existing user attribution and cohort data to preserve your user history.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <div class="text-3xl text-cyan-600 mb-3">&#128187;</div>
+                            <h5 class="font-bold mb-2">Dashboard & Team Training</h5>
+                            <p class="text-sm text-gray-600">Configure your dashboard with custom reports and conduct comprehensive training for your marketing and data teams.</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="phase-content-2" class="phase-content hidden">
+                    <h4 class="text-2xl font-semibold text-center mb-8">Phase 2: Testing & Validation Details</h4>
+                    <div class="grid md:grid-cols-2 gap-8 text-center">
+                         <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <div class="text-3xl text-cyan-600 mb-3">&#128279;</div>
+                            <h5 class="font-bold mb-2">Parallel Tracking</h5>
+                            <p class="text-sm text-gray-600">For a brief period, run both MMPs simultaneously to compare attribution data directly and ensure accuracy.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                           <div class="text-3xl text-cyan-600 mb-3">&#128300;</div>
+                           <h5 class="font-bold mb-2">A/B Testing New Campaigns</h5>
+                            <p class="text-sm text-gray-600">Launch small, controlled campaigns using only AppsFlyer links to validate the accuracy of install and event attribution.</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="phase-content-3" class="phase-content hidden">
+                    <h4 class="text-2xl font-semibold text-center mb-8">Phase 3: Full Migration & Decommissioning Details</h4>
+                    <div class="grid md:grid-cols-3 gap-8 text-center">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <div class="text-3xl text-cyan-600 mb-3">&#128274;</div>
+                            <h5 class="font-bold mb-2">Update All Tracking Links</h5>
+                            <p class="text-sm text-gray-600">Systematically update all active campaign tracking links (paid media, owned channels, partners) to new AppsFlyer links.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <div class="text-3xl text-cyan-600 mb-3">&#128129;</div>
+                            <h5 class="font-bold mb-2">Partner Communication</h5>
+                            <p class="text-sm text-gray-600">Ensure all ad network and media partners are informed of the switch and have the correct new tracking links.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <div class="text-3xl text-cyan-600 mb-3">&#128640;</div>
+                            <h5 class="font-bold mb-2">Sunset Old SDK</h5>
+                            <p class="text-sm text-gray-600">After a successful transition, the old SDK can be safely removed from the QuickEats app in a future update.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Protect360 -->
+        <section id="protect360" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <span class="text-cyan-600 font-semibold uppercase tracking-wider">Objective 2</span>
+                <h3 class="mt-2 text-3xl font-bold text-gray-900">Validating Protect360 Anti-Fraud</h3>
+                 <p class="mt-4 text-lg text-gray-500">Protect your marketing budget by eliminating fraudulent installs and fake orders.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-lg transform hover:-translate-y-1 transition-transform duration-300 border border-gray-200">
+                    <h4 class="text-xl font-bold mb-3">Real-Time Fraud Blocking</h4>
+                    <p class="text-gray-600">Monitor the dashboard to see fraudulent installs and events blocked in real-time, giving you a clear picture of traffic quality.</p>
+                </div>
+                 <div class="bg-white p-8 rounded-lg shadow-lg transform hover:-translate-y-1 transition-transform duration-300 border border-gray-200">
+                    <h4 class="text-xl font-bold mb-3">Post-Attribution Detection</h4>
+                    <p class="text-gray-600">Identify sophisticated fraud like bots and behavioral anomalies that pass initial checks, with quantifiable savings reports.</p>
+                </div>
+                <div class="bg-cyan-600 text-white p-8 rounded-lg shadow-xl text-center flex flex-col justify-center">
+                    <h4 class="text-xl font-bold mb-2">The Benefit for QuickEats</h4>
+                    <p class="opacity-90 mb-4">Ensure marketing spend acquires real, high-value users, leading to accurate ROAS and LTV.</p>
+                    <div class="bg-white/20 p-4 rounded-lg">
+                        <span class="block text-sm uppercase tracking-wider">Estimated Fraud Savings</span>
+                        <span id="fraud-savings-counter" class="block text-4xl font-bold mt-1">$0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: BigQuery -->
+        <section id="bigquery" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <span class="text-cyan-600 font-semibold uppercase tracking-wider">Objective 3</span>
+                <h3 class="mt-2 text-3xl font-bold text-gray-900">Granular Data Integration with BigQuery</h3>
+                 <p class="mt-4 text-lg text-gray-500">Empower your BI and data science teams with raw, granular data for advanced analysis.</p>
+            </div>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 text-center flex-1">
+                    <div class="text-2xl font-bold text-cyan-600 bg-cyan-50 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">1</div>
+                    <h4 class="font-bold">Create GCS Bucket</h4>
+                    <p class="text-sm text-gray-500">Set up a Google Cloud Storage bucket for data export.</p>
+                </div>
+                <div class="text-2xl text-gray-300 transform md:rotate-0 rotate-90">&rarr;</div>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 text-center flex-1">
+                     <div class="text-2xl font-bold text-cyan-600 bg-cyan-50 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">2</div>
+                    <h4 class="font-bold">Configure Data Locker</h4>
+                     <p class="text-sm text-gray-500">Point AppsFlyer's Data Locker to your new GCS bucket.</p>
+                </div>
+                <div class="text-2xl text-gray-300 transform md:rotate-0 rotate-90">&rarr;</div>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 text-center flex-1">
+                    <div class="text-2xl font-bold text-cyan-600 bg-cyan-50 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">3</div>
+                    <h4 class="font-bold">Load into BigQuery</h4>
+                     <p class="text-sm text-gray-500">Set up a data pipeline to load the raw data into BigQuery tables.</p>
+                </div>
+            </div>
+             <p class="text-center mt-8 text-gray-600 max-w-3xl mx-auto">This process provides access to over 60 data points per event, enabling advanced cohort analysis, custom attribution modeling, and the ability to join AppsFlyer data with your internal business metrics.</p>
+        </section>
+
+        <!-- Section 4: Re-engagement -->
+        <section id="re-engagement" class="mb-16 scroll-mt-20">
+            <div class="text-center mb-12">
+                <span class="text-cyan-600 font-semibold uppercase tracking-wider">Objective 4</span>
+                <h3 class="mt-2 text-3xl font-bold text-gray-900">Driving Re-engagement with Deep Linking</h3>
+                 <p class="mt-4 text-lg text-gray-500">Boost user LTV by creating powerful, seamless user journeys with OneLink™.</p>
+            </div>
+            <div class="max-w-3xl mx-auto">
+                <div class="space-y-4" id="accordion-container">
+                    <div class="accordion-item bg-white border border-gray-200 rounded-lg shadow-sm">
+                        <button class="accordion-header w-full text-left p-6 flex justify-between items-center">
+                            <span class="text-lg font-semibold text-gray-800">Personalized Offers</span>
+                            <span class="accordion-icon text-cyan-600 text-2xl transform transition-transform duration-300">&plus;</span>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">Send users a push notification with a deep link that takes them directly to a special promotion on their favorite restaurant's menu, increasing conversion with a highly relevant offer.</p>
+                        </div>
+                    </div>
+                     <div class="accordion-item bg-white border border-gray-200 rounded-lg shadow-sm">
+                        <button class="accordion-header w-full text-left p-6 flex justify-between items-center">
+                            <span class="text-lg font-semibold text-gray-800">Cart Abandonment</span>
+                            <span class="accordion-icon text-cyan-600 text-2xl transform transition-transform duration-300">&plus;</span>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">Target users who left items in their cart with a timely ad or email. The deep link brings them directly back to their populated cart, removing friction and making it easy to complete the order.</p>
+                        </div>
+                    </div>
+                     <div class="accordion-item bg-white border border-gray-200 rounded-lg shadow-sm">
+                        <button class="accordion-header w-full text-left p-6 flex justify-between items-center">
+                            <span class="text-lg font-semibold text-gray-800">New Restaurant Promos</span>
+                            <span class="accordion-icon text-cyan-600 text-2xl transform transition-transform duration-300">&plus;</span>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">Announce new and exciting restaurant partners with a campaign that deep links users straight to the new restaurant's page inside the app, driving discovery and initial orders.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item bg-white border border-gray-200 rounded-lg shadow-sm">
+                        <button class="accordion-header w-full text-left p-6 flex justify-between items-center">
+                            <span class="text-lg font-semibold text-gray-800">Deferred Deep Linking</span>
+                            <span class="accordion-icon text-cyan-600 text-2xl transform transition-transform duration-300">&plus;</span>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">For users who have uninstalled the app, deferred deep linking provides a seamless journey. It routes them to the app store for a reinstall and then automatically directs them to the specific in-app content they originally clicked on.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-sm text-gray-400">&copy; 2025 AppsFlyer. All rights reserved. This is a conceptual roadmap for QuickEats.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navigation scroll highlighting
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Migration Timeline Interaction
+            const phaseSteps = document.querySelectorAll('.phase-step');
+            const phaseContents = document.querySelectorAll('.phase-content');
+
+            phaseSteps.forEach(step => {
+                step.addEventListener('click', () => {
+                    phaseSteps.forEach(s => s.classList.remove('active'));
+                    step.classList.add('active');
+                    
+                    const targetId = step.dataset.target;
+                    phaseContents.forEach(content => {
+                        content.classList.toggle('hidden', content.id !== targetId);
+                    });
+                });
+            });
+
+            // Fraud Savings Counter Animation
+            const counterElement = document.getElementById('fraud-savings-counter');
+            const targetValue = 150000;
+            const duration = 2000;
+            let start = 0;
+            const stepTime = 16;
+            const totalSteps = duration / stepTime;
+            const increment = targetValue / totalSteps;
+            
+            let current = 0;
+            const counterObserver = new IntersectionObserver((entries) => {
+                 if (entries[0].isIntersecting) {
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= targetValue) {
+                            current = targetValue;
+                            clearInterval(timer);
+                        }
+                        counterElement.textContent = '$' + Math.floor(current).toLocaleString();
+                    }, stepTime);
+                    counterObserver.unobserve(counterElement);
+                 }
+            }, { threshold: 0.8 });
+
+            if(counterElement) {
+                counterObserver.observe(counterElement);
+            }
+            
+            // Accordion Interaction
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const item = header.parentElement;
+                    const content = header.nextElementSibling;
+                    const icon = header.querySelector('.accordion-icon');
+                    const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+                    // Close all other items
+                    document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.querySelector('.accordion-content').style.maxHeight = '0px';
+                            otherItem.querySelector('.accordion-icon').textContent = '+';
+                            otherItem.querySelector('.accordion-icon').classList.remove('rotate-45');
+                        }
+                    });
+
+                    // Toggle current item
+                    if (isOpen) {
+                        content.style.maxHeight = '0px';
+                        icon.textContent = '+';
+                        icon.classList.remove('rotate-45');
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        icon.textContent = '+';
+                        icon.classList.add('rotate-45');
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

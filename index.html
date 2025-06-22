@@ -3,29 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuickEats POC Strategy</title>
+    <title>QuickEats POC Strategy Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Strategic Calm -->
-    <!-- Application Structure Plan: The application is designed as a single-page dashboard with tab-based navigation (Dashboard, Client Profile, Risks, POC Plan, Value Props). This structure was chosen over a linear document to allow team members (Sales, CS) to quickly access the information most relevant to their roles. The "Dashboard" provides a high-level overview for quick check-ins, while dedicated sections allow for a deeper dive into specific areas like risks or the execution plan. This non-linear, task-oriented design enhances usability and makes the strategic information more digestible and actionable. -->
-    <!-- Visualization & Content Choices: 
-        - Priorities & Stakeholders: Report Info -> Client priorities & key contacts. Goal -> Inform & Organize. Viz/Method -> Interactive cards with icons (HTML/CSS). Interaction -> Hover effects. Justification -> Visually separates key data points for quick scanning. Library -> Tailwind CSS.
-        - Risks & Mitigation: Report Info -> Technical bottlenecks. Goal -> Inform & Compare. Viz/Method -> Toggle list (HTML/CSS). Interaction -> Click to reveal mitigation strategies. Justification -> Presents risks and solutions together in a compact, interactive format. Library -> Vanilla JS, Tailwind CSS.
-        - POC Plan Timeline: Report Info -> 4-phase POC plan. Goal -> Show Change & Organize. Viz/Method -> Combined a visual process stepper (HTML/CSS) with a horizontal bar chart (Chart.js). Interaction -> Clicking a step in the stepper highlights it and displays details. Justification -> The stepper clarifies the sequence of actions, while the chart provides an immediate visual representation of the project's duration and phasing. Library -> Chart.js, Vanilla JS, Tailwind CSS.
-        - Value Propositions: Report Info -> Key product messaging. Goal -> Inform. Viz/Method -> Large, distinct content cards. Interaction -> None needed. Justification -> Emphasizes the core sales messages, making them stand out. Library -> Tailwind CSS.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
         }
         .nav-btn {
             transition: all 0.3s ease;
         }
         .nav-btn.active {
-            background-color: #3b82f6;
+            background-color: #2563eb;
             color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
         .nav-btn:not(.active):hover {
             background-color: #e5e7eb;
@@ -35,15 +28,26 @@
         }
         .content-section.active {
             display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .timeline-step.active .step-circle {
-            background-color: #3b82f6;
+            background-color: #2563eb;
             color: white;
-            border-color: #3b82f6;
+            border-color: #2563eb;
+            transform: scale(1.1);
         }
-        .timeline-step.active .step-title {
-            color: #3b82f6;
-            font-weight: 600;
+        .timeline-step .step-circle {
+            transition: all 0.3s ease;
+        }
+        .risk-item button {
+            transition: background-color 0.2s ease-in-out;
+        }
+        .risk-item button:hover {
+            background-color: #f3f4f6;
         }
         .chart-container {
             position: relative;
@@ -78,246 +82,148 @@
             <button data-target="risks" class="nav-btn text-sm md:text-base font-medium py-2 px-4 rounded-lg">Risks & Mitigation</button>
             <button data-target="plan" class="nav-btn text-sm md:text-base font-medium py-2 px-4 rounded-lg">POC Plan</button>
             <button data-target="value" class="nav-btn text-sm md:text-base font-medium py-2 px-4 rounded-lg">Value Propositions</button>
+            <button data-target="resources" class="nav-btn text-sm md:text-base font-medium py-2 px-4 rounded-lg">Resources</button>
         </nav>
 
         <main>
-            <!-- Dashboard Section -->
             <section id="dashboard" class="content-section active">
                 <div class="text-center mb-8">
                     <h2 class="text-2xl font-bold text-gray-800">At a Glance</h2>
-                    <p class="text-gray-600 mt-1">This dashboard provides a high-level overview of the QuickEats POC. Use the tabs above for a deeper dive into each area.</p>
+                    <p class="text-gray-600 mt-1">This dashboard provides a high-level overview of the QuickEats POC. Use the tabs above for a deeper dive.</p>
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Priorities -->
+                    <!-- Client's Key Priorities - spans 2 columns -->
                     <div class="bg-white p-6 rounded-xl shadow-md col-span-1 md:col-span-2">
                         <h3 class="font-bold text-lg mb-4 text-gray-700">Client's Key Priorities</h3>
                         <div class="space-y-3">
-                            <div class="flex items-center gap-4 p-3 bg-blue-50 rounded-lg">
-                                <span class="text-2xl">🔄</span>
-                                <div>
-                                    <h4 class="font-semibold">Seamless Migration</h4>
-                                    <p class="text-sm text-gray-600">Smooth transition from current MMP with no data loss.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-4 p-3 bg-green-50 rounded-lg">
-                                <span class="text-2xl">🛡️</span>
-                                <div>
-                                    <h4 class="font-semibold">Fraud Protection</h4>
-                                    <p class="text-sm text-gray-600">Validate Protect360 effectiveness in high-fraud markets.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-4 p-3 bg-yellow-50 rounded-lg">
-                                <span class="text-2xl">📊</span>
-                                <div>
-                                    <h4 class="font-semibold">Granular Data Export</h4>
-                                    <p class="text-sm text-gray-600">Export rich data to their BigQuery warehouse.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-4 p-3 bg-purple-50 rounded-lg">
-                                <span class="text-2xl">🔗</span>
-                                <div>
-                                    <h4 class="font-semibold">Re-engagement</h4>
-                                    <p class="text-sm text-gray-600">Leverage deep linking to re-engage existing users.</p>
-                                </div>
-                            </div>
+                            <div class="flex items-center gap-4 p-3 bg-blue-50 rounded-lg"><span class="text-2xl">🔄</span><div><h4 class="font-semibold">Seamless Migration</h4><p class="text-sm text-gray-600">Execute a parallel SDK implementation for data validation.</p></div></div>
+                            <div class="flex items-center gap-4 p-3 bg-green-50 rounded-lg"><span class="text-2xl">🛡️</span><div><h4 class="font-semibold">Protect360 Validation</h4><p class="text-sm text-gray-600">Prove effectiveness of multi-layered fraud protection.</p></div></div>
+                            <div class="flex items-center gap-4 p-3 bg-yellow-50 rounded-lg"><span class="text-2xl">📊</span><div><h4 class="font-semibold">Data Locker to BigQuery</h4><p class="text-sm text-gray-600">Implement raw data pipeline to their GCP environment.</p></div></div>
+                            <div class="flex items-center gap-4 p-3 bg-purple-50 rounded-lg"><span class="text-2xl">🔗</span><div><h4 class="font-semibold">OneLink Re-engagement</h4><p class="text-sm text-gray-600">Master deep linking to drive users to in-app content.</p></div></div>
                         </div>
                     </div>
-                    <!-- Stakeholders -->
-                    <div class="bg-white p-6 rounded-xl shadow-md">
+            
+                    <!-- Key Stakeholders -->
+                    <div class="bg-white p-6 rounded-xl shadow-md col-span-1 md:col-span-2 lg:col-span-2">
                         <h3 class="font-bold text-lg mb-4 text-gray-700">Key Stakeholders</h3>
                         <div class="space-y-3">
-                            <div class="p-3 bg-gray-100 rounded-lg">
-                                <h4 class="font-semibold">Marketing/UA Team</h4>
-                                <p class="text-sm text-gray-600">Focus: Campaign performance, Re-engagement KPIs.</p>
-                            </div>
-                            <div class="p-3 bg-gray-100 rounded-lg">
-                                <h4 class="font-semibold">Data/BI Team</h4>
-                                <p class="text-sm text-gray-600">Focus: BigQuery data accuracy, granularity, timeliness.</p>
-                            </div>
-                            <div class="p-3 bg-gray-100 rounded-lg">
-                                <h4 class="font-semibold">Engineering/Product</h4>
-                                <p class="text-sm text-gray-600">Focus: SDK implementation, Deep linking logic.</p>
-                            </div>
+                            <div class="p-3 bg-gray-100 rounded-lg"><h4 class="font-semibold">Marketing/UA Team</h4><p class="text-sm text-gray-600">Focus: Re-engagement KPIs, Campaign Performance.</p></div>
+                            <div class="p-3 bg-gray-100 rounded-lg"><h4 class="font-semibold">Data/BI Team</h4><p class="text-sm text-gray-600">Focus: Data Locker implementation, data granularity.</p></div>
+                            <div class="p-3 bg-gray-100 rounded-lg"><h4 class="font-semibold">Engineering/Product</h4><p class="text-sm text-gray-600">Focus: SDK implementation, `onDeepLink` logic.</p></div>
                         </div>
                     </div>
-                    <!-- POC Timeline -->
-                    <div class="bg-white p-6 rounded-xl shadow-md">
-                        <h3 class="font-bold text-lg mb-4 text-gray-700">POC Timeline (6 Weeks)</h3>
-                        <div class="chart-container h-64">
-                            <canvas id="timelineChart"></canvas>
-                        </div>
+            
+                    <!-- Project Timeline - moved below the above two -->
+                    <div class="bg-white p-6 rounded-xl shadow-md col-span-1 md:col-span-2 lg:col-span-4">
+                        <h3 class="font-bold text-lg mb-4 text-gray-700">Project Timeline (6 Weeks)</h3>
+                        <div class="chart-container h-64"><canvas id="timelineChart"></canvas></div>
                     </div>
                 </div>
             </section>
             
-            <!-- Client Profile Section -->
             <section id="profile" class="content-section">
-                <div class="text-center mb-8">
-                    <h2 class="text-2xl font-bold text-gray-800">Client Profile: QuickEats</h2>
-                    <p class="text-gray-600 mt-1">This section details the client's core objectives for this POC and identifies the key teams we will be working with.</p>
+                <div class="flex items-center gap-4 mb-8">
+                    <img src="quickeats-logo.png" alt="QuickEats Logo" class="w-14 h-14 rounded-full object-cover shadow-sm">
+                    <div>
+                        <h4 class="text-2xl font-bold text-gray-800">Client: QuickEats</h4>
+                        <p class="text-sm text-gray-600">A European food delivery app that launched in Latin America last year.</p>
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="bg-white p-6 rounded-xl shadow-md">
                         <h3 class="font-bold text-xl mb-4 text-gray-700">Primary Objectives</h3>
-                        <ul class="space-y-4">
-                            <li>
-                                <h4 class="font-semibold">1. Seamless Migration</h4>
-                                <p class="text-gray-600">They need a smooth transition from their current provider with minimal data loss or disruption to their marketing operations.</p>
-                            </li>
-                            <li>
-                                <h4 class="font-semibold">2. Fraud Protection</h4>
-                                <p class="text-gray-600">Validating the effectiveness of Protect360 is critical. This is likely driven by their expansion into LATAM, where mobile ad fraud rates can be high.</p>
-                            </li>
-                            <li>
-                                <h4 class="font-semibold">3. Granular Data Export</h4>
-                                <p class="text-gray-600">The requirement to export data to BigQuery points to a data-driven team. They rely on granular insights for their internal business intelligence and modeling.</p>
-                            </li>
-                             <li>
-                                <h4 class="font-semibold">4. Re-engagement & Deep Linking</h4>
-                                <p class="text-gray-600">They want to leverage our advanced tools to increase customer lifetime value (LTV) by effectively re-engaging their existing user base.</p>
-                            </li>
+                        <ul class="space-y-4 list-decimal list-inside">
+                            <li><span class="font-semibold">Seamless Migration:</span> Execute a parallel SDK implementation to validate our data against their incumbent without disrupting live operations.</li>
+                            <li><span class="font-semibold">Protect360 Validation:</span> Demonstrate the value of our multi-layered fraud protection, including Validation Rules and post-attribution detection, via raw data reports in their high-fraud LATAM market.</li>
+                            <li><span class="font-semibold">Granular Data to BigQuery:</span> Fully implement Data Locker to provide their BI team with a rich, raw event data stream directly into their own GCP bucket.</li>
+                            <li><span class="font-semibold">Advanced Re-engagement:</span> Enable them to master OneLink to create powerful, seamless deep linking experiences that drive users to specific in-app content and boost LTV.</li>
                         </ul>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-md">
                         <h3 class="font-bold text-xl mb-4 text-gray-700">Key Stakeholder Groups</h3>
                         <div class="space-y-4">
-                           <div class="border-l-4 border-blue-500 pl-4">
-                                <h4 class="font-semibold">Marketing/UA Team</h4>
-                                <p class="text-gray-600">These are the primary business owners of the POC. Their success is measured by campaign performance and re-engagement KPIs. They will be our main point of contact.</p>
-                           </div>
-                           <div class="border-l-4 border-green-500 pl-4">
-                                <h4 class="font-semibold">Data/BI Team</h4>
-                                <p class="text-gray-600">This team owns the BigQuery integration. They will be laser-focused on data accuracy, granularity, and the timeliness of the data we provide. We must earn their trust.</p>
-                           </div>
-                           <div class="border-l-4 border-yellow-500 pl-4">
-                                <h4 class="font-semibold">Engineering/Product Team</h4>
-                                <p class="text-gray-600">Responsible for the technical heavy lifting: implementing the SDK and building the in-app routing logic for deep linking. Clear guidance and support are crucial for them.</p>
-                           </div>
+                           <div class="border-l-4 border-blue-500 pl-4"><h4 class="font-semibold">Marketing/UA Team</h4><p class="text-gray-600">The business owners. We must demonstrate how OneLink and accurate data drives their core KPIs.</p></div>
+                           <div class="border-l-4 border-green-500 pl-4"><h4 class="font-semibold">Data/BI Team</h4><p class="text-gray-600">The data owners. They will be focused on the Data Locker setup process and validating the granularity and accuracy of the raw data we provide.</p></div>
+                           <div class="border-l-4 border-yellow-500 pl-4"><h4 class="font-semibold">Engineering/Product Team</h4><p class="text-gray-600">The technical implementers. They need clear guidance on the parallel SDK setup and, critically, on building the in-app routing to handle the `onDeepLink` callback and `deep_link_value` parameters.</p></div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Risks Section -->
             <section id="risks" class="content-section">
                 <div class="text-center mb-8">
                     <h2 class="text-2xl font-bold text-gray-800">Anticipated Risks & Mitigation Plan</h2>
-                    <p class="text-gray-600 mt-1">This section outlines potential technical challenges and our proactive strategies to ensure a smooth POC. Click on each risk to see our mitigation plan.</p>
+                    <p class="text-gray-600 mt-1">Updated technical challenges based on official documentation. Click each risk for our proactive mitigation strategy.</p>
                 </div>
                 <div class="max-w-4xl mx-auto space-y-4">
-                    <div class="risk-item bg-white rounded-xl shadow-md overflow-hidden">
-                        <button class="w-full text-left p-4">
-                            <h3 class="font-semibold text-lg">1. SDK Coexistence</h3>
-                            <p class="text-sm text-gray-500">Risk of reporting discrepancies and app performance issues from running two MMP SDKs.</p>
-                        </button>
-                        <div class="risk-mitigation hidden p-4 bg-gray-50 border-t">
-                            <p class="text-gray-700"><strong>Mitigation:</strong> Provide clear documentation on best practices for parallel SDK implementation. Set up a dedicated support channel with their engineers to troubleshoot any performance flags immediately. Carefully manage which SDK initializes first if needed.</p>
-                        </div>
-                    </div>
-                    <div class="risk-item bg-white rounded-xl shadow-md overflow-hidden">
-                        <button class="w-full text-left p-4">
-                            <h3 class="font-semibold text-lg">2. Data Discrepancies</h3>
-                            <p class="text-sm text-gray-500">Attribution logic differences will cause numbers not to match 1:1 with their incumbent.</p>
-                        </button>
-                        <div class="risk-mitigation hidden p-4 bg-gray-50 border-t">
-                            <p class="text-gray-700"><strong>Mitigation:</strong> Proactively set expectations during the kick-off call. Prepare a "source of truth" document explaining the key differences in our attribution models (e.g., lookback windows, fingerprinting logic). Frame our data as the more accurate, reliable source.</p>
-                        </div>
-                    </div>
-                    <div class="risk-item bg-white rounded-xl shadow-md overflow-hidden">
-                        <button class="w-full text-left p-4">
-                            <h3 class="font-semibold text-lg">3. Deep Linking Complexity</h3>
-                             <p class="text-sm text-gray-500">Implementation of Universal Links/App Links and in-app routing can be a bottleneck for their engineers.</p>
-                        </button>
-                        <div class="risk-mitigation hidden p-4 bg-gray-50 border-t">
-                            <p class="text-gray-700"><strong>Mitigation:</strong> Schedule a dedicated Deep Linking workshop early in the process (Phase 4). Provide them with code samples and a step-by-step guide. Start with a simple use case to demonstrate value quickly before tackling more complex scenarios.</p>
-                        </div>
-                    </div>
-                     <div class="risk-item bg-white rounded-xl shadow-md overflow-hidden">
-                        <button class="w-full text-left p-4">
-                            <h3 class="font-semibold text-lg">4. BigQuery Integration</h3>
-                            <p class="text-sm text-gray-500">Their internal ETL processes or schema requirements may complicate the data export.</p>
-                        </button>
-                        <div class="risk-mitigation hidden p-4 bg-gray-50 border-t">
-                             <p class="text-gray-700"><strong>Mitigation:</strong> Engage their Data/BI team early to understand their existing schema. Review our Data Locker and BigQuery connector documentation with them, highlighting customization options. Be prepared to assist with mapping our data fields to their internal structure.</p>
-                        </div>
-                    </div>
+                    <div class="risk-item bg-white rounded-xl shadow-md overflow-hidden"><button class="w-full text-left p-4"><h3 class="font-semibold text-lg">1. Data Integrity During Migration</h3><p class="text-sm text-gray-500">Risk of data discrepancies and improper handling of old SDK events like uninstalls.</p></button><div class="risk-mitigation hidden p-4 bg-gray-50 border-t"><p class="text-gray-700"><strong>Mitigation:</strong> Proactively set expectations that 1:1 matching is impossible. Provide a "discrepancy one-pager" explaining differences in logic. Advise them on the correct procedure for uninstall tracking during the parallel period to avoid data contamination.</p></div></div>
+                    <div class="risk-item bg-white rounded-xl shadow-md overflow-hidden"><button class="w-full text-left p-4"><h3 class="font-semibold text-lg">2. Data Locker Setup Delays</h3><p class="text-sm text-gray-500">Bottlenecks in client-side creation of GCP bucket and service account credentials.</p></button><div class="risk-mitigation hidden p-4 bg-gray-50 border-t"><p class="text-gray-700"><strong>Mitigation:</strong> Provide them with our pre-flight checklist for Data Locker setup in the kick-off call. Offer a dedicated technical session with their data team to walk through the GCP and AWS IAM configuration steps live.</p></div></div>
+                    <div class="risk-item bg-white rounded-xl shadow-md overflow-hidden"><button class="w-full text-left p-4"><h3 class="font-semibold text-lg">3. In-App Routing for OneLink</h3><p class="text-sm text-gray-500">Client's app may lack the logic to parse `deep_link_value` and route users correctly.</p></button><div class="risk-mitigation hidden p-4 bg-gray-50 border-t"><p class="text-gray-700"><strong>Mitigation:</strong> Address this head-on in the kick-off. The dedicated OneLink workshop will focus heavily on the `onDeepLink` listener and provide boilerplate code for parsing parameters and handling different routing scenarios.</p></div></div>
+                    <div class="risk-item bg-white rounded-xl shadow-md overflow-hidden"><button class="w-full text-left p-4"><h3 class="font-semibold text-lg">4. Protect360 Value Interpretation</h3><p class="text-sm text-gray-500">Client may not fully grasp the value of different blocked fraud types.</p></button><div class="risk-mitigation hidden p-4 bg-gray-50 border-t"><p class="text-gray-700"><strong>Mitigation:</strong> The "Value Review" in Phase 3 is critical. We will prepare a custom report analyzing their traffic and clearly explain the story behind the data in `blocked_install_post_attribution` and other reports, translating blocked fraud into tangible savings.</p></div></div>
                 </div>
             </section>
 
-            <!-- Plan Section -->
             <section id="plan" class="content-section">
                 <div class="text-center mb-8">
                     <h2 class="text-2xl font-bold text-gray-800">The 6-Week POC Game Plan</h2>
-                    <p class="text-gray-600 mt-1">We will follow a phased approach focused on building trust through technical excellence. Click on a phase to see the details.</p>
+                    <p class="text-gray-600 mt-1">Our updated phased approach. Click a phase to see the technically-aligned details.</p>
                 </div>
-
                 <div class="flex flex-col md:flex-row gap-8">
-                    <!-- Timeline Steps -->
                     <div class="w-full md:w-1/3">
                         <div class="space-y-6">
-                            <div class="timeline-step cursor-pointer" data-phase="1">
-                                <div class="flex items-center">
-                                    <div class="step-circle w-8 h-8 rounded-full border-2 border-gray-400 flex items-center justify-center font-bold">1</div>
-                                    <div class="ml-4">
-                                        <h4 class="step-title font-semibold text-gray-700">Kick-off & Alignment</h4>
-                                        <p class="text-sm text-gray-500">Week 1</p>
-                                    </div>
-                                </div>
-                            </div>
-                             <div class="timeline-step cursor-pointer" data-phase="2">
-                                <div class="flex items-center">
-                                    <div class="step-circle w-8 h-8 rounded-full border-2 border-gray-400 flex items-center justify-center font-bold">2</div>
-                                    <div class="ml-4">
-                                        <h4 class="step-title font-semibold text-gray-700">Parallel Implementation</h4>
-                                        <p class="text-sm text-gray-500">Weeks 1-3</p>
-                                    </div>
-                                </div>
-                            </div>
-                             <div class="timeline-step cursor-pointer" data-phase="3">
-                                <div class="flex items-center">
-                                    <div class="step-circle w-8 h-8 rounded-full border-2 border-gray-400 flex items-center justify-center font-bold">3</div>
-                                    <div class="ml-4">
-                                        <h4 class="step-title font-semibold text-gray-700">Data Validation & Fraud</h4>
-                                        <p class="text-sm text-gray-500">Weeks 4-6</p>
-                                    </div>
-                                </div>
-                            </div>
-                             <div class="timeline-step cursor-pointer" data-phase="4">
-                                <div class="flex items-center">
-                                    <div class="step-circle w-8 h-8 rounded-full border-2 border-gray-400 flex items-center justify-center font-bold">4</div>
-                                    <div class="ml-4">
-                                        <h4 class="step-title font-semibold text-gray-700">Re-engagement Workshop</h4>
-                                        <p class="text-sm text-gray-500">Week 5</p>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="timeline-step cursor-pointer" data-phase="1"><div class="flex items-center"><div class="step-circle w-8 h-8 rounded-full border-2 border-gray-400 flex items-center justify-center font-bold">1</div><div class="ml-4"><h4 class="step-title font-semibold text-gray-700">Kick-off & Tech Alignment</h4><p class="text-sm text-gray-500">Week 1</p></div></div></div>
+                            <div class="timeline-step cursor-pointer" data-phase="2"><div class="flex items-center"><div class="step-circle w-8 h-8 rounded-full border-2 border-gray-400 flex items-center justify-center font-bold">2</div><div class="ml-4"><h4 class="step-title font-semibold text-gray-700">Parallel SDK Implementation</h4><p class="text-sm text-gray-500">Weeks 1-3</p></div></div></div>
+                            <div class="timeline-step cursor-pointer" data-phase="3"><div class="flex items-center"><div class="step-circle w-8 h-8 rounded-full border-2 border-gray-400 flex items-center justify-center font-bold">3</div><div class="ml-4"><h4 class="step-title font-semibold text-gray-700">Protect360 & Data Locker Validation</h4><p class="text-sm text-gray-500">Weeks 4-6</p></div></div></div>
+                            <div class="timeline-step cursor-pointer" data-phase="4"><div class="flex items-center"><div class="step-circle w-8 h-8 rounded-full border-2 border-gray-400 flex items-center justify-center font-bold">4</div><div class="ml-4"><h4 class="step-title font-semibold text-gray-700">OneLink Deep Linking Workshop</h4><p class="text-sm text-gray-500">Week 5</p></div></div></div>
                         </div>
                     </div>
-                    <!-- Timeline Details -->
                     <div class="w-full md:w-2/3 bg-white p-6 rounded-xl shadow-md">
-                        <div id="phase-details">
-                            <!-- Details will be injected here by JS -->
-                        </div>
+                        <div id="phase-details"></div>
                     </div>
                 </div>
             </section>
 
-            <!-- Value Prop Section -->
             <section id="value" class="content-section">
-                <div class="text-center mb-8">
-                    <h2 class="text-2xl font-bold text-gray-800">Our Winning Message</h2>
-                    <p class="text-gray-600 mt-1">These are the two key value messages we must emphasize throughout the POC to align with the client's core business objectives.</p>
+                <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-gray-900">Our Strategic Value</h2>
+                        <p class="text-lg text-gray-600 mt-2">We're not just a tool; we're a growth partner. This is how we win.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="border-l-4 border-blue-500 p-6 bg-blue-50/50 rounded-r-lg">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">The Foundation for Intelligent Growth</h3>
+                            <p class="text-gray-700">We will demonstrate that Data Locker isn't just a data feed; it's the trustworthy, granular event stream that will become the single source of truth for their most critical growth decisions. We empower their BI team to build models and strategies with confidence.</p>
+                        </div>
+                         <div class="border-l-4 border-green-500 p-6 bg-green-50/50 rounded-r-lg">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">From First Tap to Lifelong Loyalty</h3>
+                            <p class="text-gray-700">We will prove that OneLink is more than a utility. It's the engine for creating seamless user journeys that convert new installs and re-engage dormant users, directly increasing customer LTV in their hyper-competitive food delivery market.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                    <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-blue-500">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-3">"Your Single Source of Truth for Growth."</h3>
-                        <p class="text-gray-600">This message directly addresses their need for reliable, granular data in BigQuery. We must emphasize that accurate attribution isn't just a technical check-box; it's the foundation of their entire marketing intelligence stack. Our robust raw-data reporting and reliable BigQuery connector give their data team the trustworthy foundation they need to make critical business decisions.</p>
-                    </div>
-                     <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-green-500">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-3">"Turn Installs into Loyal Customers."</h3>
-                        <p class="text-gray-600">This shifts the conversation from deep linking as a technical feature to a core driver of business growth. For a competitive food delivery app, re-engaging a user for a second or third order is paramount. We will frame our re-engagement suite (OneLink, Audiences) as the most effective toolset to increase LTV and win in the hyper-competitive LATAM market.</p>
-                    </div>
+            </section>
+            
+            <section id="resources" class="content-section">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800">Key Documentation Resources</h2>
+                    <p class="text-gray-600 mt-1">Direct links to the official AppsFlyer documentation for each component of this POC.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                    <a href="https://support.appsflyer.com/hc/en-us/articles/360001923697-Migration-to-AppsFlyer-from-other-vendors" target="_blank" class="block bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                        <h4 class="font-bold text-lg text-blue-600">Migration Guide</h4>
+                        <p class="text-gray-600 mt-2">Official guide for parallel SDK implementation and data validation when migrating from other vendors.</p>
+                    </a>
+                    <a href="https://support.appsflyer.com/hc/en-us/articles/218254203-Protect360-anti-fraud-guide" target="_blank" class="block bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                        <h4 class="font-bold text-lg text-blue-600">Protect360 Guide</h4>
+                        <p class="text-gray-600 mt-2">Detailed documentation on our anti-fraud solution, including raw data reports for blocked events.</p>
+                    </a>
+                    <a href="https://support.appsflyer.com/hc/en-us/articles/360017603577-Data-Locker-cloud-service-setup" target="_blank" class="block bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                        <h4 class="font-bold text-lg text-blue-600">Data Locker Setup</h4>
+                        <p class="text-gray-600 mt-2">Step-by-step instructions for configuring Data Locker with cloud services like GCP/BigQuery.</p>
+                    </a>
+                    <a href="https://support.appsflyer.com/hc/en-us/articles/115005248543-OneLink-guide" target="_blank" class="block bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                        <h4 class="font-bold text-lg text-blue-600">OneLink Guide</h4>
+                        <p class="text-gray-600 mt-2">Comprehensive guide to creating OneLink templates and handling deep link data in the SDK.</p>
+                    </a>
                 </div>
             </section>
         </main>
@@ -335,47 +241,37 @@
                 '1': {
                     title: 'Phase 1: Kick-off & Technical Alignment',
                     duration: 'Week 1',
-                    description: 'Hold a joint kick-off call with their Marketing, Data, and Engineering teams. The goal is to align on success criteria, timelines, and establish clear technical points of contact for a smooth process.'
+                    description: 'Joint call with Marketing, Data, and Eng teams. We will align on success criteria and present the technical pre-flight checklists for Data Locker and the parallel SDK migration.'
                 },
                 '2': {
-                    title: 'Phase 2: Parallel Implementation',
+                    title: 'Phase 2: Parallel SDK Implementation',
                     duration: 'Weeks 1-3',
-                    description: 'Guide their engineers through a parallel SDK implementation. We will provide a detailed checklist, code samples, and offer a dedicated support channel. We will focus on getting key in-app events for re-engagement configured from the start.'
+                    description: 'Provide hands-on guidance to their engineers for the SDK setup. The focus will be on correct parallel implementation and mapping their key business actions to our standard and rich in-app events.'
                 },
                 '3': {
-                    title: 'Phase 3: Data Validation & Fraud Analysis',
+                    title: 'Phase 3: Protect360 & Data Locker Validation',
                     duration: 'Weeks 4-6',
-                    description: 'Once the SDK is live in a test environment, we\'ll run live campaigns in a target LATAM country. We will compare our dashboard and raw data against their current MMP and BI data. Concurrently, we will activate Protect360 and schedule a session to review the savings and blocked fraud patterns.'
+                    description: 'Activate Protect360 and schedule a "Value Review" to analyze their blocked fraud raw data. Concurrently, we will work with their BI team to validate the schema and data flow from Data Locker into their BigQuery instance.'
                 },
                 '4': {
-                    title: 'Phase 4: Re-engagement & Deep Linking Workshop',
+                    title: 'Phase 4: OneLink Deep Linking Workshop',
                     duration: 'Week 5',
-                    description: 'Proactively schedule a hands-on workshop with their product and marketing teams to build out a test re-engagement campaign using OneLink. Demonstrating the ease of use and power of our tools here will be a major win and address a key priority.'
+                    description: 'A hands-on workshop focused on building a re-engagement campaign. We will cover creating a OneLink template, and crucially, implementing the `onDeepLink` listener in the SDK to handle routing.'
                 }
             };
 
             function updatePhaseDetails(phase) {
                 const details = phaseDetails[phase];
-                phaseDetailsContainer.innerHTML = `
-                    <h4 class="text-xl font-bold text-gray-800 mb-2">${details.title}</h4>
-                    <p class="font-semibold text-blue-600 mb-4">${details.duration}</p>
-                    <p class="text-gray-600">${details.description}</p>
-                `;
+                phaseDetailsContainer.innerHTML = `<h4 class="text-xl font-bold text-gray-800 mb-2">${details.title}</h4><p class="font-semibold text-blue-600 mb-4">${details.duration}</p><p class="text-gray-600">${details.description}</p>`;
             }
             
             navButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const targetId = button.dataset.target;
-
                     navButtons.forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
-
                     contentSections.forEach(section => {
-                        if (section.id === targetId) {
-                            section.classList.add('active');
-                        } else {
-                            section.classList.remove('active');
-                        }
+                        section.classList.toggle('active', section.id === targetId);
                     });
                 });
             });
@@ -396,12 +292,9 @@
                 });
             });
 
-            // Initial state for timeline
             timelineSteps[0].classList.add('active');
             updatePhaseDetails('1');
 
-
-            // Chart.js Timeline Chart
             const ctx = document.getElementById('timelineChart').getContext('2d');
             new Chart(ctx, {
                 type: 'bar',
@@ -409,24 +302,9 @@
                     labels: ['Kick-off', 'Implementation', 'Validation', 'Workshop'],
                     datasets: [{
                         label: 'POC Phases (Weeks)',
-                        data: [
-                            {x: [0, 1], y: 'Kick-off'},
-                            {x: [0, 3], y: 'Implementation'},
-                            {x: [3, 6], y: 'Validation'},
-                            {x: [4, 5], y: 'Workshop'}
-                        ],
-                        backgroundColor: [
-                            'rgba(59, 130, 246, 0.7)',
-                            'rgba(16, 185, 129, 0.7)',
-                            'rgba(245, 158, 11, 0.7)',
-                            'rgba(139, 92, 246, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgba(59, 130, 246, 1)',
-                            'rgba(16, 185, 129, 1)',
-                            'rgba(245, 158, 11, 1)',
-                            'rgba(139, 92, 246, 1)'
-                        ],
+                        data: [{x: [0, 1], y: 'Kick-off'}, {x: [0, 3], y: 'Implementation'}, {x: [3, 6], y: 'Validation'}, {x: [4, 5], y: 'Workshop'}],
+                        backgroundColor: ['rgba(59, 130, 246, 0.7)', 'rgba(16, 185, 129, 0.7)', 'rgba(245, 158, 11, 0.7)', 'rgba(139, 92, 246, 0.7)'],
+                        borderColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'],
                         borderWidth: 1,
                         barPercentage: 0.5,
                     }]
@@ -435,34 +313,8 @@
                     indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            min: 0,
-                            max: 6,
-                            title: {
-                                display: true,
-                                text: 'Weeks'
-                            }
-                        },
-                        y: {
-                           grid: {
-                                display: false
-                           }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const item = context.raw;
-                                    return ` ${context.dataset.label}: Weeks ${item.x[0] + 1} to ${item.x[1]}`;
-                                }
-                            }
-                        }
-                    }
+                    scales: {x: {min: 0, max: 6, title: {display: true, text: 'Weeks'}}, y: {grid: {display: false}}},
+                    plugins: {legend: {display: false}, tooltip: {callbacks: {label: (c) => ` ${c.dataset.label}: Weeks ${c.raw.x[0] + 1} to ${c.raw.x[1]}`}}}
                 }
             });
         });

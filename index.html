@@ -80,7 +80,7 @@
             <button data-target="dashboard" class="nav-btn active text-sm md:text-base font-medium py-2 px-4 rounded-lg">Main Info</button>
             <button data-target="profile" class="nav-btn text-sm md:text-base font-medium py-2 px-4 rounded-lg">Client Profile</button>
             <button data-target="risks" class="nav-btn text-sm md:text-base font-medium py-2 px-4 rounded-lg">Risks & Mitigation</button>
-            <button data-target="plan" class="nav-btn text-sm md:text-base font-medium py-2 px-4 rounded-lg">POC Plan</button>
+            <button data-target="plan" class="nav-btn text-sm md:text-base font-medium py-2 px-4 rounded-lg">Project Plan</button>
             <button data-target="value" class="nav-btn text-sm md:text-base font-medium py-2 px-4 rounded-lg">Value Propositions</button>
             <button data-target="resources" class="nav-btn text-sm md:text-base font-medium py-2 px-4 rounded-lg">Resources</button>
         </nav>
@@ -92,7 +92,6 @@
                     <p class="text-gray-600 mt-1">This dashboard provides a high-level overview of the QuickEats POC. Use the tabs above for a deeper dive.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Client's Key Priorities - spans 2 columns -->
                     <div class="bg-white p-6 rounded-xl shadow-md col-span-1 md:col-span-2">
                         <h3 class="font-bold text-lg mb-4 text-gray-700">Client's Key Priorities</h3>
                         <div class="space-y-3">
@@ -103,7 +102,6 @@
                         </div>
                     </div>
             
-                    <!-- Key Stakeholders -->
                     <div class="bg-white p-6 rounded-xl shadow-md col-span-1 md:col-span-2 lg:col-span-2">
                         <h3 class="font-bold text-lg mb-4 text-gray-700">Key Stakeholders</h3>
                         <div class="space-y-3">
@@ -111,12 +109,6 @@
                             <div class="p-3 bg-gray-100 rounded-lg"><h4 class="font-semibold">Data/BI Team</h4><p class="text-sm text-gray-600">Focus: Data Locker implementation, data granularity.</p></div>
                             <div class="p-3 bg-gray-100 rounded-lg"><h4 class="font-semibold">Engineering/Product</h4><p class="text-sm text-gray-600">Focus: SDK implementation, `onDeepLink` logic.</p></div>
                         </div>
-                    </div>
-            
-                    <!-- Project Timeline - moved below the above two -->
-                    <div class="bg-white p-6 rounded-xl shadow-md col-span-1 md:col-span-2 lg:col-span-4">
-                        <h3 class="font-bold text-lg mb-4 text-gray-700">Project Timeline (6 Weeks)</h3>
-                        <div class="chart-container h-64"><canvas id="timelineChart"></canvas></div>
                     </div>
                 </div>
             </section>
@@ -180,6 +172,10 @@
                     <div class="w-full md:w-2/3 bg-white p-6 rounded-xl shadow-md">
                         <div id="phase-details"></div>
                     </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md mt-8">
+                    <h3 class="font-bold text-lg mb-4 text-gray-700">Project Timeline (6 Weeks)</h3>
+                    <div class="chart-container h-64"><canvas id="timelineChart"></canvas></div>
                 </div>
             </section>
 
@@ -292,6 +288,7 @@
                 });
             });
 
+            // Make sure to activate the first phase on load
             timelineSteps[0].classList.add('active');
             updatePhaseDetails('1');
 
